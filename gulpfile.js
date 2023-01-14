@@ -1,18 +1,18 @@
-const { parallel } = require("gulp");
+const { src, dest } = require("gulp");
 
-const myFirstGulpTask = (done) => {
-  console.log('My First Gulp Task Completed');
 
-  done()
+const copyFile = () => {
+  return src(["src/**/*.scss", "!src/pages/**" ]).pipe(dest("build/styles"));
 };
 
-const mySecondGulpTask = (done) => {
-  console.log('My Second Gulp Task Completed');
-
-  done()
-};
+exports.copy = copyFile;
 
 
-exports.default = parallel(myFirstGulpTask, mySecondGulpTask)
-exports.myFirstGulpTask = myFirstGulpTask;
-exports.mySecondGulpTask = mySecondGulpTask;
+
+const { src, dest } = require("gulp");
+
+const copyCSS = () => {
+  return src(['./project/**/*.css', '!./project/dist/old/**']).pipe(dest('./server'));
+}
+
+exports.copyCSS = copyCSS;
