@@ -55,34 +55,30 @@
 //exports.server = browserSyncJob;
 
 // 9 Development: make /build + server + watch changes on pug and scss files
-const { src, dest, parallel, watch, series } = require("gulp");
+//const { src, dest, parallel, watch, series } = require("gulp");
+//const sass = require("gulp-sass")(require("sass"));
+//const pug = require("gulp-pug");
+//const browserSync = require("browser-sync").create();
+//const buildSass = () => {  console.log('Компиляция SASS');  return src('./src/sass/*.scss')    .pipe(sass()).pipe(dest('./build/styles/')).pipe(browserSync.stream());};
+//const buildPug = () => {  console.log('Компиляция Pug');  return src('./src/pages/*.pug')    .pipe(pug()).pipe(dest('./build/')).pipe(browserSync.stream());};
+//const browserSyncJob = () => {  browserSync.init({    server: "build/"  });  watch('./src/sass/*.scss', buildSass);  watch('./src/pages/*.pug', buildPug);};
+//exports.server = browserSyncJob;
+//exports.build = parallel(buildSass, buildPug);
+//exports.development = series(parallel(buildSass, buildPug), browserSyncJob);
+
+// 10 Задача к главе "Сторонние пакеты"
+const { src, dest } = require("gulp");
 const sass = require("gulp-sass")(require("sass"));
-const pug = require("gulp-pug");
-const browserSync = require("browser-sync").create();
+const cleanCSS = require("gulp-clean-css");
+const concat = require("gulp-concat");
 
-const buildSass = () => {
-  console.log('Компиляция SASS');
+const copyCss = ('minify-css', () => {
+  return src("./src/**/*.scss")
+    .pipe(sass({sourcemap: false}))
+    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(concat('app.css'))
+    .pipe(dest("./build/"));
+})
 
-  return src('./src/sass/*.scss')
-    .pipe(sass()).pipe(dest('./build/styles/')).pipe(browserSync.stream());
-};
-
-const buildPug = () => {
-  console.log('Компиляция Pug');
-
-  return src('./src/pages/*.pug')
-    .pipe(pug()).pipe(dest('./build/')).pipe(browserSync.stream());
-};
-
-const browserSyncJob = () => {
-  browserSync.init({
-    server: "build/"
-  });
-
-  watch('./src/sass/*.scss', buildSass);
-  watch('./src/pages/*.pug', buildPug);
-};
-
-exports.server = browserSyncJob;
-exports.build = parallel(buildSass, buildPug);
-exports.development = series(parallel(buildSass, buildPug), browserSyncJob);
+exports.default = copyCss;
+exports.build = copyCss;
