@@ -3,6 +3,11 @@
     "cli": "^1.0.1"
   },
   "devDependencies": {
-    "gulp": "^4.0.2"
+    "browser-sync": "^2.27.11",
+    "gulp": "^4.0.2",
+    "gulp-pug": "^5.0.0",
+    "gulp-sass": "^5.1.0",
+    "pug": "^3.0.2",
+    "sass": "^1.57.1"
   }
 }
